@@ -1,0 +1,11 @@
+.crud{
+    width: 60%;
+    margin: auto;
+}
+.btn-danger{
+    margin-left: 15px;
+}
+
+#agregar{
+    margin-bottom: 20px;
+}

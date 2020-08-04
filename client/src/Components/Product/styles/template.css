@@ -1,0 +1,32 @@
+.monospaced { 
+    font-family: 'Ubuntu Mono', monospaced ; 
+    margin-left: 10px;
+}
+.add-to-cart .btn-qty {
+    width: 52px;
+    height: 46px;
+  }
+.add-to-cart .btn { border-radius: 0; }
+
+#product-image{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.container img{
+    border: none;
+}
+
+.compra{
+    margin-left: auto;
+
+}
+
+.container{
+    text-align: start;
+}
+
+.row{
+    padding-top: 8px;
+}
+
