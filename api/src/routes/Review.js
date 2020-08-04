@@ -1,10 +1,10 @@
 const express = require('express');
-const router = express.Router();
-const {User} = require('../models/index.js');
-const {Product} = require('../models/index.js');
-const {Review} = require('../models/index.js');
+const app = express.Router();
+const { User } = require('../models/index.js');
+const { Product } = require('../models/index.js');
+const { Review } = require('../models/index.js');
 
-router.get('/:id', (req, res) => {
+app.get('/:id', (req, res) => {
   Review.findAll({
     where: {
       productId: req.params.id,
@@ -17,53 +17,57 @@ router.get('/:id', (req, res) => {
   });
 });
 
-router.post('/:id', (req, res) => {
-  const description = req.body.description;
-  const star = req.body.star;
-  const productId = req.params.id;
-  const userId = req.body.UserId;
-  
-
+app.post('/:id', (req, res) => {
+  let description = req.body.description;
+  let star = req.body.star;
+  let productId = req.params.id;
+  let userId = req.body.UserId;
   Review.create({
-    description: description,
-    star: star,
-  })
-    .then(newReview => {
-      newReview.setProduct(productId);
-      newReview.setUser(userId);
+      description: description,
+      star: star,
+    })
+    .then(nRv => {
+      nRv.setProduct(productId);
+      nRv.setUser(userId);
     })
     .then(() => {
       res.sendStatus(200);
     })
-    .catch(err => res.status(500).send(err));
+    .catch(err =>
+      res.status(500).send(err));
 });
 
-router.put('/:id', (req, res) => {
-  const id = req.params.id;
-
+app.put('/:id', (req, res) => {
+  let id = req.params.id;
   Review.update(req.body, {
-    where: {
-      id: id,
-    },
-    returning: true,
-  })
+      where: {
+        id: id,
+      },
+      returning: true,
+    })
     .then(response => {
-      const review = response[1][0];
+      let review = response[1][0];
       return review;
     })
-    .then(review => res.send(review))
-    .catch(err => res.send(err.message));
+    .then(review =>
+      res.send(review))
+    .catch(err =>
+      res.send(err.message));
 });
 
-router.delete('/:id', (req, res) => {
-  const id = req.params.id;
+app.delete('/:id', (req, res) => {
+  let id = req.params.id;
   Review.destroy({
-    where: { id: id },
-  })
-    .then(deletedReview => {
-      res.json(deletedReview);
+      where: {
+        id: id
+      },
     })
-    .catch(res.send);
+    .then(ok => {
+      res.sendStatus(204);
+    })
+    .catch(err => {
+      res.sendStatus(500)
+    })
 });
 
-module.exports = router;
+module.exports = app;

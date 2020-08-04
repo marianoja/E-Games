@@ -14,7 +14,7 @@ export default class CRUD_edit extends React.Component{
             category: "",
             stock : 0,
             categories:[],
-            categoriselected:"",
+            categoriselected:[],
         }
     }
 
@@ -91,7 +91,7 @@ export default class CRUD_edit extends React.Component{
                 description : this.state.description,
                 price : this.state.price,
                 stock : this.state.stock,
-                category : this.state.categoriselected
+                categories : this.state.categoriselected
             }
         }).then(e=>{
             window.alert("Se actualizó el producto " + this.state.name + " correctamente");
@@ -104,7 +104,11 @@ export default class CRUD_edit extends React.Component{
         categorySelected = e=>{
             this.setState({
                 ...this.state,
-                categoriselected : e.target.value
+                categoriselected : []
+            })
+            this.setState({
+                ...this.state,
+                categoriselected : [...e.target.selectedOptions].map(o => o.value)
             })
         }
     

@@ -6,38 +6,42 @@ const {
 
 app.get('/', (req, res) => {
   const category = req.body.category;
-  let find;
-
+  let detect;
   if (category !== undefined) {
-    find = {
-      include: [
-        { model: Categories, where: { id: c } },
-      ],
+    detect = {
+      include: [{
+        model: Categories,
+        where: {
+          id: c
+        }
+      }, ],
     };
   } else {
-    find = {
-      include: [{ model: Categories }],
+    detect = {
+      include: [{
+        model: Categories
+      }],
     };
   }
-  Product.findAll(find).then(products => {
+  Product.findAll(detect).then(products => {
     res.send(products);
   });
 });
 
 app.get('/:id', async (req, res) => {
-  let product = await Product.findOne(
-    {
-      where:
-      {
-        id: req.params.id
-      },
-      include: [{model: Categories}]
-    })
+  let product = await Product.findOne({
+    where: {
+      id: req.params.id
+    },
+    include: [{
+      model: Categories
+    }]
+  })
   res.send(product)
 });
 
 app.post('/add', async (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.header('Access-Control-Allow-Credentials', 'true');
   let product = await Product.create(req.body)
     .then(p => {
@@ -46,40 +50,54 @@ app.post('/add', async (req, res) => {
             where: {
               id: c
             }
-          }).then(c => {
-            console.log(c);
-            p.addCategory(c);
+          }).then(cat => {
+            p.addCategory(cat);
           })
-          .catch(r => console.log(r) && res.status(500));
+          .catch(error => res.status(500));
       })
     })
     .then(product => {
       res.json(product);
     })
-    .catch(r => {
-      res.status(500).send(r)
-      console.log(r);
+    .catch(err => {
+      res.status(500).send(err)
     })
-
 });
 
 app.put('/:id', async (req, res) => {
-  let product = await Product.update(req.body, {
+  const product = Product.findOne({where:{name:req.body.name}})
+  product.then(p=>{
+    p.update(req.body)
+    .then(newProduct=>{
+      req.body.categories.map(c=>{
+        Categories.findOne({where:{name:c}})
+        .then(c=>{
+          newProduct.addCategory(c)
+        })
+      })
+    })
+    .then(p=>{
+      res.json(p)
+    })
+  })})
+  /*let product = await Product.update(req.body, {
     where: {
       id: req.params.id
     },
-    include: [{model: Categories}]
+    include: [{
+      model: Categories
+    }]
   })
   res.json(product)
-});
+});*/
 
 app.delete('/:id', async (req, res) => {
   await Product.destroy({
-    where: {
-      id: req.params.id
-    }
-  })
-  .then((deletedProduct) => {
+      where: {
+        id: req.params.id
+      }
+    })
+    .then((deletedProduct) => {
       if (deletedProduct === 1) {
         res.sendStatus(200);
       } else {

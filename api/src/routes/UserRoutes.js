@@ -1,28 +1,27 @@
 const express = require('express');
-const router = express.Router();
+const app = express.Router();
 const { User } = require('../models/index.js');
 const { Orders } = require('../models/Order.js');
 const passport = require('passport');
 
-router.post('/add', async (req, res) => {
+app.post('/add', async (req, res) => {
     let user = await User.create(req.body)
     .then(user=>res.json(user))
     .catch(error=>{
         res.status(500).send(error)});
 });
 
-router.get('/', async (req, res) => {
+app.get('/', async (req, res) => {
     let users = await User.findAll();
     res.json(users);
 });
 
-router.get('/:id', async (req, res) => {
+app.get('/:id', async (req, res) => {
     let users = await User.findByPk(req.params.id)
-    console.log(req.body)
     res.json(users)
 });
 
-router.put('/:id', async (req, res) => {
+app.put('/:id', async (req, res) => {
     await User.update(req.body, {
         where: {
             id: req.params.id
@@ -31,29 +30,48 @@ router.put('/:id', async (req, res) => {
     res.sendStatus(200);
 });
 
-router.delete('/:id', async (req, res) => {
+app.get('/:id/orders', (req, res) => {
+  let id = req.params.id;
+  User.findByPk(id)
+    .then(user => user.getOrders())
+    .then(orders => res.json(orders));
+});
+
+app.delete('/:id', async (req, res) => {
     await User.destroy({
             where: {
                 id: req.params.id
             }
         })
-        .then((userDeleted) => {
-            if (userDeleted === 1) {
+        .then((del) => {
+            if (del === 1) {
                 res.sendStatus(200)
             } else {
                 res.sendStatus(404)
             }
         })
-        .catch((error) => {
-            res.status(500).send(error);
+        .catch((err) => {
+            res.status(500).send(err);
         });
-})
+});
 
-//LINEA DE ORDENES
+ app.put('/changestatus', (req, res) => {
+  User.findByPk(id).then(user =>
+    user
+      .update({ status: req.body.status })
+      .then(() => {
+        return User.findAll({
+          include: [
+            {
+              id: id
+            },
+          ],
+        });
+      })
+      .then(users => {
+        res.json(users);
+      }),
+  );
+});
 
-
-
-
-//LINEA DE LOGIN Y LOGOUT
-
-module.exports = router;
+module.exports = app;

@@ -17,16 +17,15 @@ fs.readdirSync(__dirname)
   });
 
 const {
-// Add model relationships here
   Product,
   Categories,
   Order,
   OrderDetail,
   User,
-  Review
+  Review,
+  Cart,
 } = models;
 
-// Add model relationships here
 Product.belongsToMany(Categories, {through: "products_categories"});
 Categories.belongsToMany(Product,{through: "products_categories"});
 User.hasMany(Order, { as: 'orders'})
@@ -37,7 +36,6 @@ Product.hasMany(Review, { as: "reviews" });
 User.hasMany(Review, { as: 'review' });
 Review.belongsTo(Product, { as: 'product' });
 Review.belongsTo(User);
-
 
 
 module.exports = models;

@@ -30,3 +30,9 @@
     padding-top: 8px;
 }
 
+.btn-warning p{
+    font-weight: lighter;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: x-large;
+}
+

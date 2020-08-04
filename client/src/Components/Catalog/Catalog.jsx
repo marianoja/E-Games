@@ -3,6 +3,7 @@ import Product from '../Product/Product';
 import './styles/catalog.css';
 import LeftBar from '../Bars/LeftBar';
 import axios from 'axios';
+import '../Bars/styles/leftbar.css';
 
 
 export default class Catalog extends React.Component{
@@ -38,9 +39,9 @@ export default class Catalog extends React.Component{
     
     render(){
         return (
-            <div className="catalog">
-            <div class = "row">
-            <div className="col-lg-2">
+            <div style={{minHeight:"200%",marginTop:"40px"}}  className="catalog">
+            <div style={{paddingTop:"0px", minHeight:"1000px"}} class = "row">
+            <div style={{background:"rgba(0, 0, 0, 0.78)", minHeight:"100%"}} id="leftbar" className="col-lg-2">
             <LeftBar change={this.change}/>
             </div>
             <div class = "col-lg-10">
@@ -78,7 +79,7 @@ function catalog(state,cat) {
 }
 
 function product(p) {
-    return <div className="col-sm-3"><Product 
+    return <div id="product" className="col-sm-4"><Product 
     product = {p}
     id={p.id}
     name={p.name}

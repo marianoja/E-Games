@@ -1,0 +1,69 @@
+#filter{
+    margin-left: 1050px;
+    margin-bottom: -150px;
+}
+
+#table{
+    background-color: rgb(37, 44, 51);
+}
+
+
+
+#table th{
+    display: table-cell;
+    vertical-align: inherit;
+    font-weight: bold;
+    text-align: center;
+}
+
+#table th a{
+    margin-top:12px;
+}
+
+#table th p{
+    margin-top:15px;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: large;
+    color:white;
+}
+
+#table .btn-secondary p{
+    font-size: medium;
+    
+}
+
+#table .btn-secondary{
+    width: 110%;
+    margin-left: 15px;
+}
+
+#table .btn-success p{
+    font-size:medium;
+}
+#table .btn-success{
+    width: 110%;
+    margin-left: 15px;
+}
+
+#table .btn-danger p{
+    font-size: medium ;
+}
+#table .btn-danger{
+    width:110%;
+}
+
+#table #cancel{
+    width:60px;
+    height:60px;
+
+}
+#vieworder{
+    width:60px;
+    height:60px;
+    margin-bottom: 10px;
+}
+
+#vieworder i{
+    margin-top:15px
+}

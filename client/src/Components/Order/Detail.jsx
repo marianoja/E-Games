@@ -8,11 +8,6 @@ function Detail(orderDetail) {
       <td> {orderDetail.price}</td>
       <td> {orderDetail.amount}</td>
       <td> ${orderDetail.amount * orderDetail.price} </td>
-      <td>
-        <a href="" className="btn btn-primary">
-          <i className="fa fa-eye"></i>
-        </a>
-      </td>
     </tr>
   )
 }

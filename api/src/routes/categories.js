@@ -29,9 +29,7 @@ app.delete('/:idCategoria', async (req, res) => {
     }
   }).then((deletedProduct) => {
     if (deletedProduct === 1) {
-      res.status(200).send({
-        message: "Deleted successfully"
-      });
+      res.sendStatus(200);
     } else {
       res.sendStatus(404);
     }
@@ -39,7 +37,6 @@ app.delete('/:idCategoria', async (req, res) => {
     .catch((error) => {
       res.status(500).send(error);
     });
-})
-
+});
 
 module.exports = app;

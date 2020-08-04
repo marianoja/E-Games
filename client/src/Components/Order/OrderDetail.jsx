@@ -1,12 +1,15 @@
 import React from 'react'
 import Detail from './Detail'
 import {connect} from 'react-redux';
-import {getDetails} from '../../store/actions/Order'
+import {getDetails,getStatus} from '../../store/actions/Order'
+import {total} from 'cart-localstorage'
+import './styles/checkout.css'
 
 
 export class OrderDetail extends React.Component {
   componentDidMount(){
     this.props.getDetails(this.props.match.params.orderId);
+    this.props.getStatus(this.props.match.params.orderId);
   }
 
   render(){
@@ -22,7 +25,6 @@ export class OrderDetail extends React.Component {
               <th>Price</th>
               <th>Cant</th>
               <th>Subtotal</th>
-              <th>Options</th>
             </tr>
           </thead>
           <tbody>
@@ -37,6 +39,7 @@ export class OrderDetail extends React.Component {
               <th> ${this.props.price} </th>
               <th></th>
             </tr>
+            <button disabled={this.props.status==="cancelled" || this.props.status==="completed"} onClick={()=>window.location.assign('/checkout')} id="continue" class="btn btn-primary btn-lg btn-block" type="button">Continue to checkout</button>
           </tbody>
         </table>
       </div>
@@ -48,13 +51,15 @@ function mapStateToProps(state){
   return{
     details: state.order.details,
     price: state.order.price,
-    amount: state.order.amount
+    amount: state.order.amount,
+    status: state.order.status
   }
 }
 
 function mapDispatchToProps(dispatch){
   return{
-    getDetails: id => dispatch(getDetails(id))
+    getDetails: id => dispatch(getDetails(id)),
+    getStatus: id=> dispatch(getStatus(id)),
   }
 }
 
